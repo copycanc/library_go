@@ -12,8 +12,8 @@ type Storage struct {
 	conn *pgx.Conn
 }
 
-func NewStorage() (*Storage, error) {
-	conn, err := pgx.Connect(context.Background(), "conn str") //TODO Добавить строку подключения
+func NewStorage(connStr string) (*Storage, error) {
+	conn, err := pgx.Connect(context.Background(), connStr) //TODO Добавить строку подключения
 	if err != nil {
 		return nil, err
 	}

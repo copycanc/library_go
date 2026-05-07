@@ -15,7 +15,7 @@ func main() {
 
 	var repo server.Storage
 
-	db, err := db_storage.NewStorage()
+	db, err := db_storage.NewStorage(cfg.DBDSN)
 	if err != nil {
 		repo = in_memory.NewStorage()
 	} else {
