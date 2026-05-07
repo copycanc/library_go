@@ -32,13 +32,13 @@ func (s *Storage) GetBooksList() ([]models.Book, error) {
 	return bookList, nil
 }
 
-func (s *Storage) SaveBook(book models.Book) {
+func (s *Storage) SaveBook(book models.Book) error {
 	for key, b := range s.books {
 		if b.Author == book.Author && b.Lable == book.Lable {
 			mBook := s.books[key]
 			mBook.Count++
 			s.books[key] = mBook
-			return
+			return nil
 		}
 
 	}
@@ -46,6 +46,7 @@ func (s *Storage) SaveBook(book models.Book) {
 	book.Count = 1
 	book.BookID = bookID
 	s.books[bookID] = book
+	return nil
 }
 
 func (s *Storage) RegisterUser(user models.User) error {
