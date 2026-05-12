@@ -16,7 +16,7 @@ import (
 
 type Storage interface {
 	GetBooksList() ([]models.Book, error)
-	SaveBook(book models.Book)
+	SaveBook(book models.Book) error
 	RegisterUser(user models.User) error
 	GetUser(user models.UserLogin) (models.User, error)
 	PrintInfoBook(string) (models.Book, error)

@@ -1,8 +1,11 @@
 package main
 
-import "log"
+import (
+	"log"
+	"rest_library/internal/storage/db_storage"
+	"rest_library/internal/storage/in_memory"
+)
 import "rest_library/internal/server"
-import "rest_library/internal/storage/in_memory"
 import "rest_library/internal"
 
 func main() {
@@ -10,8 +13,16 @@ func main() {
 	log.Printf("\nServer addr: %s\nServer port: %d\n\n", cfg.Addr, cfg.Port)
 	log.Println("Library service started...")
 
-	storage := in_memory.NewStorage()
-	server := server.NewLibraryAPI(storage, cfg.Addr, cfg.Port)
+	var repo server.Storage
+
+	db, err := db_storage.NewStorage(cfg.DBDSN)
+	if err != nil {
+		repo = in_memory.NewStorage()
+	} else {
+		repo = db
+	}
+
+	server := server.NewLibraryAPI(repo, cfg.Addr, cfg.Port)
 
 	if err := server.Run(); err != nil {
 		log.Fatal(err.Error())
